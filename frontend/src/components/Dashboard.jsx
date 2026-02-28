@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { employeeAPI, attendanceAPI } from '../services/api';
+import { useState, useEffect } from 'react';
 import './Dashboard.css';
 
 const Dashboard = ({ refreshTrigger }) => {
@@ -22,52 +21,25 @@ const Dashboard = ({ refreshTrigger }) => {
     setLoading(true);
     setError('');
     try {
-      const employees = await employeeAPI.getAll();
+      // Use the new optimized endpoint
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/dashboard/stats`);
+      if (!response.ok) throw new Error('Failed to fetch dashboard data');
       
-      // Calculate department distribution
-      const deptMap = {};
-      employees.forEach(emp => {
-        deptMap[emp.department] = (deptMap[emp.department] || 0) + 1;
-      });
-      const departments = Object.entries(deptMap).map(([name, count]) => ({
-        name,
-        count
-      }));
-
-      // Fetch all attendance records
-      let allAttendance = [];
-      for (const emp of employees) {
-        try {
-          const empAttendance = await attendanceAPI.getByEmployee(emp.employee_id);
-          allAttendance = [...allAttendance, ...empAttendance.map(record => ({
-            ...record,
-            employeeName: emp.name
-          }))];
-        } catch (err) {
-          // Skip if employee has no attendance
-        }
-      }
-
-      // Sort by date (newest first) and get recent 5
-      allAttendance.sort((a, b) => new Date(b.date) - new Date(a.date));
-      const recent = allAttendance.slice(0, 5);
-
-      // Calculate today's attendance
-      const today = new Date().toISOString().split('T')[0];
-      const todayAttendance = allAttendance.filter(record => 
-        record.date === today
-      );
-      const presentToday = todayAttendance.filter(r => r.status === 'Present').length;
-      const absentToday = todayAttendance.filter(r => r.status === 'Absent').length;
-
+      const data = await response.json();
+      
       setStats({
-        totalEmployees: employees.length,
-        totalAttendance: allAttendance.length,
-        presentToday,
-        absentToday,
-        departments
+        totalEmployees: data.total_employees,
+        totalAttendance: data.total_attendance,
+        presentToday: data.present_today,
+        absentToday: data.absent_today,
+        departments: data.departments
       });
-      setRecentAttendance(recent);
+      
+      setRecentAttendance(data.recent_attendance.map(record => ({
+        employeeName: record.employee_name,
+        date: record.date,
+        status: record.status
+      })));
     } catch (err) {
       setError(err.message);
     } finally {

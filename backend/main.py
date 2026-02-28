@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from database import get_db, init_db
+from models import Employee, Attendance, AttendanceStatus
 from schemas import EmployeeCreate, EmployeeResponse, AttendanceCreate, AttendanceResponse
 from crud import (
     create_employee,
@@ -141,6 +142,65 @@ def get_attendance_endpoint(employee_id: str, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=str(e)
         )
+
+
+@app.get("/dashboard/stats")
+def get_dashboard_stats(db: Session = Depends(get_db)):
+    """
+    Get aggregated dashboard statistics in a single call.
+    
+    Returns:
+        200: Dashboard statistics including employee count, attendance summary, etc.
+    """
+    from sqlalchemy import func
+    from datetime import date
+    
+    # Get total employees
+    total_employees = db.query(Employee).count()
+    
+    # Get total attendance records
+    total_attendance = db.query(Attendance).count()
+    
+    # Get today's attendance
+    today = date.today()
+    today_present = db.query(Attendance).filter(
+        Attendance.date == today,
+        Attendance.status == AttendanceStatus.Present
+    ).count()
+    
+    today_absent = db.query(Attendance).filter(
+        Attendance.date == today,
+        Attendance.status == AttendanceStatus.Absent
+    ).count()
+    
+    # Get department distribution
+    dept_distribution = db.query(
+        Employee.department,
+        func.count(Employee.employee_id).label('count')
+    ).group_by(Employee.department).all()
+    
+    departments = [{"name": dept, "count": count} for dept, count in dept_distribution]
+    
+    # Get recent attendance (last 5 records)
+    recent_attendance = db.query(Attendance).join(Employee).order_by(
+        Attendance.date.desc()
+    ).limit(5).all()
+    
+    recent = [{
+        "employee_id": record.employee_id,
+        "employee_name": record.employee.name,
+        "date": str(record.date),
+        "status": record.status.value
+    } for record in recent_attendance]
+    
+    return {
+        "total_employees": total_employees,
+        "total_attendance": total_attendance,
+        "present_today": today_present,
+        "absent_today": today_absent,
+        "departments": departments,
+        "recent_attendance": recent
+    }
 
 
 @app.exception_handler(Exception)

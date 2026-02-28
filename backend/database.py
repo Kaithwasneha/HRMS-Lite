@@ -43,7 +43,8 @@ DATABASE_URL = get_database_url()
 print(f"[DB] Connecting to: {DATABASE_URL}")  # helpful for debugging in Railway logs
 
 # Create SQLAlchemy engine
-engine = create_engine(DATABASE_URL, echo=True)
+# Set echo=False in production for better performance
+engine = create_engine(DATABASE_URL, echo=False)
 
 # Create session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
