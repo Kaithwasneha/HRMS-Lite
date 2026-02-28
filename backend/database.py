@@ -16,6 +16,10 @@ DATABASE_URL = os.getenv(
     "mysql+pymysql://root:password@localhost:3306/hrms_lite"
 )
 
+# Railway provides mysql:// but we need mysql+pymysql://
+if DATABASE_URL.startswith("mysql://"):
+    DATABASE_URL = DATABASE_URL.replace("mysql://", "mysql+pymysql://", 1)
+
 # Create SQLAlchemy engine
 engine = create_engine(DATABASE_URL, echo=True)
 
