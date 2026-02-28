@@ -221,7 +221,6 @@ hrms-lite/
 │   ├── sample_data.sql            # 50 employees + 1,400 attendance records
 │   ├── load_sample_data.bat       # Easy data loading script
 │   ├── requirements.txt           # Python packages
-│   ├── test_*.py                  # Property-based tests
 │   └── deployment configs         # Railway, Render, Procfile
 │
 ├── frontend/
