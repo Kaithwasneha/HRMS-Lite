@@ -1,206 +1,157 @@
-# 🏢 HRMS Lite
+# HRMS Lite
 
-Hey there! Welcome to HRMS Lite - a simple, clean HR management system I built to help small teams manage their employees and track attendance without all the complexity of enterprise solutions.
+HRMS Lite is a simple HR management system I built to help small teams manage employees and track attendance without the overhead of enterprise solutions. If your team just needs the basics — who's on the team, who showed up today — this covers it cleanly.
 
-## ✨ What Can It Do?
+## What It Does
 
-This app keeps things straightforward:
+The app is intentionally minimal. You can add employees, view the whole team at a glance, and remove people when they leave. For attendance, you mark who's present or absent each day and can pull up history whenever you need it. There's a dashboard that gives you a quick overview of team stats, department breakdown, and recent activity, along with date filtering so you can look up attendance records across a specific range.
 
-- **Manage Your Team**: Add new employees, see everyone at a glance, and remove people when they leave
-- **Track Attendance**: Mark who's present or absent each day and view attendance history
-- **Stay Organized**: Built-in validation ensures emails are valid, employee IDs are unique, and all required info is filled in
-- **Dashboard Overview**: See your team stats, department breakdown, and recent activity at a glance
-- **Filter & Search**: Find attendance records by date range and see attendance rates
-- **Works Everywhere**: Clean, professional interface that looks good on any screen
+Validation is built in throughout — emails get checked, employee IDs have to be unique, and required fields can't be left empty.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-I chose these technologies for their reliability and ease of use:
+**Frontend** — React 19 with Vite, vanilla CSS, and modern JavaScript. I kept the frontend dependencies lean on purpose.
 
-**Frontend**
-- React 19 with Vite (because fast refresh is life)
-- Vanilla CSS (keeping it simple and performant)
-- Modern JavaScript (no unnecessary complexity)
+**Backend** — FastAPI, SQLAlchemy, MySQL, and Pydantic for validation. FastAPI was the right call here; it's fast and the automatic docs are a nice bonus.
 
-**Backend**
-- FastAPI (Python's fastest web framework)
-- SQLAlchemy (makes database work a breeze)
-- MySQL (reliable and widely supported)
-- Pydantic (automatic data validation)
+## Requirements
 
-## 📋 What You'll Need
-
-Before getting started, make sure you have:
 - Node.js 18 or higher
 - Python 3.9 or higher
 - MySQL 8.0 or higher
 
-## 🚀 Getting Started
+## Getting Started
 
-### Setting Up the Backend
+### Backend Setup
 
-1. Jump into the backend folder:
+Jump into the backend folder and create a virtual environment:
+
 ```bash
 cd backend
-```
-
-2. Create a virtual environment (keeps things tidy):
-```bash
 python -m venv venv
-source venv/bin/activate  # Windows folks: venv\Scripts\activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-3. Install the dependencies:
+Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Create a `.env` file with your database info:
+Create a `.env` file with your database details:
+
 ```env
 DATABASE_URL=mysql+pymysql://root:12345678@127.0.0.1:3306/hrms_lite
 FRONTEND_URL=http://localhost:5173
 ```
 
-5. Fire up the server:
+Start the server:
+
 ```bash
 uvicorn main:app --reload
 ```
 
-Your API is now running at `http://localhost:8000` 🎉
+The API will be running at `http://localhost:8000`.
 
-### Setting Up the Frontend
+### Frontend Setup
 
-1. Navigate to the frontend folder:
+Navigate to the frontend folder:
+
 ```bash
 cd frontend
-```
-
-2. Install dependencies:
-```bash
 npm install
 ```
 
-3. Create a `.env` file:
+Create a `.env` file:
+
 ```env
 VITE_API_URL=http://localhost:8000
 ```
 
-4. Start the dev server:
+Start the dev server:
+
 ```bash
 npm run dev
 ```
 
-Open `http://localhost:5173` and you're good to go! 🚀
+Open `http://localhost:5173` and you're good to go.
 
-## 📊 Want Some Sample Data?
+## Sample Data
 
-I've included a SQL file with 50 employees and their attendance for February 2026. To load it:
+I included a SQL file with 50 employees and their attendance records for February 2026. It's a good way to get a feel for the app without having to enter data manually.
 
-**Easy way (Windows):**
+On Windows, there's a batch script:
+
 ```bash
 cd backend
 load_sample_data.bat
 ```
 
-**Manual way:**
+Or manually:
+
 ```bash
 mysql -h 127.0.0.1 -P 3306 -u root -p12345678 hrms_lite < backend/sample_data.sql
 ```
 
-This gives you realistic data to play with right away!
+## Configuration
 
-## 🔧 Configuration
+### Backend
 
-### Backend Environment Variables
-
-| Variable | What It Does | Example |
+| Variable | Description | Example |
 |----------|-------------|---------|
-| `DATABASE_URL` | Your MySQL connection string | `mysql+pymysql://root:pass@localhost:3306/hrms_lite` |
-| `FRONTEND_URL` | Where your frontend lives (for CORS) | `http://localhost:5173` |
+| `DATABASE_URL` | MySQL connection string | `mysql+pymysql://root:pass@localhost:3306/hrms_lite` |
+| `FRONTEND_URL` | Frontend origin (used for CORS) | `http://localhost:5173` |
 
-### Frontend Environment Variables
+### Frontend
 
-| Variable | What It Does | Example |
+| Variable | Description | Example |
 |----------|-------------|---------|
-| `VITE_API_URL` | Where your backend API lives | `http://localhost:8000` |
+| `VITE_API_URL` | Backend API URL | `http://localhost:8000` |
 
-## 🌐 Deploying to Production
+## Deploying to Production
 
-Ready to share your app with the world? Here's how:
+### Frontend — Vercel
 
-### Deploy Frontend (Vercel - Recommended)
+Vercel is the easiest option for the frontend. You can either use the CLI:
 
-Vercel makes this super easy:
-
-1. Install Vercel CLI:
 ```bash
 npm install -g vercel
-```
-
-2. Deploy:
-```bash
 cd frontend
 vercel
 ```
 
-3. Add your backend URL in Vercel dashboard:
-   - Go to your project settings
-   - Add environment variable: `VITE_API_URL` = your backend URL
-   - Redeploy
+Or connect your GitHub repo through the Vercel dashboard, point it at the `frontend` folder, add `VITE_API_URL` as an environment variable, and deploy from there.
 
-**Or use the Vercel dashboard:**
-- Connect your GitHub repo
-- Point to the `frontend` folder
-- Add the `VITE_API_URL` environment variable
-- Hit deploy!
+### Backend — Railway
 
-### Deploy Backend (Railway - Recommended)
+Railway works well for the Python backend:
 
-Railway is great for Python apps:
-
-1. Install Railway CLI:
 ```bash
 npm install -g @railway/cli
-```
-
-2. Deploy:
-```bash
 cd backend
 railway login
 railway init
 railway up
 ```
 
-3. Add environment variables in Railway dashboard:
-   - `DATABASE_URL`: Your MySQL connection string
-   - `FRONTEND_URL`: Your Vercel URL
+Then add `DATABASE_URL` and `FRONTEND_URL` in the Railway dashboard. You can also do the whole thing through the dashboard if you prefer connecting your GitHub repo directly.
 
-**Or use Railway dashboard:**
-- Connect your GitHub repo
-- Point to the `backend` folder
-- Add environment variables
-- Railway handles the rest!
+### Backend — Render (Alternative)
 
-### Alternative: Render for Backend
+If you'd rather use Render, create a new Web Service, connect your repo, and configure it like this:
 
-Render is another solid choice:
+- Root Directory: `backend`
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
 
-1. Create a new Web Service
-2. Connect your GitHub repo
-3. Configure:
-   - Root Directory: `backend`
-   - Build: `pip install -r requirements.txt`
-   - Start: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-4. Add environment variables
-5. Deploy!
+Add the environment variables and deploy.
 
-## 📡 API Reference
+## API Reference
 
-Here's what the API can do:
+### Employees
 
-### Employee Endpoints
+**Create an employee**
 
-**Create an Employee**
 ```http
 POST /employees
 Content-Type: application/json
@@ -212,23 +163,29 @@ Content-Type: application/json
   "department": "Engineering"
 }
 ```
-Returns: `201 Created` on success, `409 Conflict` if ID exists
 
-**Get All Employees**
+Returns `201 Created` on success, `409 Conflict` if the ID already exists.
+
+**Get all employees**
+
 ```http
 GET /employees
 ```
-Returns: `200 OK` with array of all employees
 
-**Delete an Employee**
+Returns `200 OK` with an array of all employees.
+
+**Delete an employee**
+
 ```http
 DELETE /employees/EMP001
 ```
-Returns: `204 No Content` on success, `404 Not Found` if employee doesn't exist
 
-### Attendance Endpoints
+Returns `204 No Content` on success, `404 Not Found` if the employee doesn't exist.
 
-**Mark Attendance**
+### Attendance
+
+**Mark attendance**
+
 ```http
 POST /attendance
 Content-Type: application/json
@@ -239,36 +196,19 @@ Content-Type: application/json
   "status": "Present"
 }
 ```
-Returns: `201 Created` on success
 
-**Get Employee Attendance**
+Returns `201 Created` on success.
+
+**Get attendance for an employee**
+
 ```http
 GET /attendance/EMP001
 ```
-Returns: `200 OK` with attendance records (newest first)
 
-## 🧪 Testing
+Returns `200 OK` with attendance records sorted newest first.
 
-Want to make sure everything works? Here's how:
 
-**Backend Tests**
-```bash
-cd backend
-pytest
-```
-
-I've included property-based tests that check all the important stuff - validation, uniqueness, cascade deletes, etc.
-
-**Frontend Testing**
-The frontend is tested manually (sometimes the old ways are the best ways):
-1. Fire up both servers
-2. Try creating, viewing, and deleting employees
-3. Mark some attendance and check the records
-4. Make sure errors show up when they should
-
-## 📁 Project Structure
-
-Here's how everything is organized:
+## Project Structure
 
 ```
 hrms-lite/
@@ -299,40 +239,21 @@ hrms-lite/
 │   ├── package.json
 │   └── deployment configs         # Vercel, Netlify
 │
-└── README.md                      # You are here! 👋
+└── README.md
 ```
 
-## 🎯 Design Choices
 
-A few decisions I made along the way:
+## Assumptions and Limitations
 
-- **No Authentication**: Kept it simple for a single admin user. In a real app, you'd definitely want proper auth!
-- **No Edit Feature**: You can create and delete, but not edit. This keeps the data trail clean and simple.
-- **MySQL**: Widely supported, reliable, and available on most free hosting tiers.
-- **Minimal Dependencies**: Only what we actually need - keeps things fast and maintainable.
-- **Component CSS**: No heavy frameworks - just clean, scoped styles that do the job.
+### User and Access
 
-## 💡 Ideas for the Future
+The app assumes only one administrator will be using it. This was a deliberate choice to keep things simple — no login system, no user roles, no access control. It works fine for a single person managing the team, A production version would need JWT tokens, session management, and proper user authentication before you'd want to expose it externally.
 
-Some things that would be cool to add:
-- User login and different permission levels
-- Edit employee details and attendance records
-- More advanced filtering and search
-- Department management
-- Import employees from CSV
-- Export reports to PDF
-- Email notifications
-- Better mobile experience
-- Dark mode (because why not?)
+### Data and Scale
 
-## 📝 Note
+The app is designed with teams of roughly 20-100 employees in mind. Performance is tuned for that scale and the architecture reflects it. If someOne is running a larger organization with 1000+ employees, then they will surely use a different approach — better indexing, pagination throughout, and possibly a more robust database setup.
 
-This was built as a coding assignment to demonstrate full-stack development skills. Feel free to use it, learn from it, or build upon it!
+All data input is assumed to be in English only.
 
-## 🤝 Questions?
 
-If something's not working or you have questions, feel free to open an issue. I'm happy to help!
 
----
-
-Made with ☕ and code
