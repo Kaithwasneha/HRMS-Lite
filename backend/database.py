@@ -10,15 +10,37 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Get database URL from environment variable or use default for local development
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "mysql+pymysql://root:password@localhost:3306/hrms_lite"
-)
+def get_database_url():
+    # Option 1: Try building from individual Railway variables (most reliable)
+    host = os.getenv("MYSQLHOST")
+    port = os.getenv("MYSQLPORT", "3306")
+    user = os.getenv("MYSQLUSER")
+    password = os.getenv("MYSQLPASSWORD")
+    database = os.getenv("MYSQLDATABASE")
 
-# Railway provides mysql:// but we need mysql+pymysql://
-if DATABASE_URL.startswith("mysql://"):
-    DATABASE_URL = DATABASE_URL.replace("mysql://", "mysql+pymysql://", 1)
+    if all([host, user, password, database]):
+        return f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
+
+    # Option 2: Try DATABASE_URL env var
+    url = os.getenv("DATABASE_URL")
+    if url:
+        if url.startswith("mysql://"):
+            url = url.replace("mysql://", "mysql+pymysql://", 1)
+        return url
+
+    # Option 3: Try MYSQL_URL env var
+    url = os.getenv("MYSQL_URL")
+    if url:
+        if url.startswith("mysql://"):
+            url = url.replace("mysql://", "mysql+pymysql://", 1)
+        return url
+
+    # Fallback: local development
+    return "mysql+pymysql://root:password@localhost:3306/hrms_lite"
+
+DATABASE_URL = get_database_url()
+
+print(f"[DB] Connecting to: {DATABASE_URL}")  # helpful for debugging in Railway logs
 
 # Create SQLAlchemy engine
 engine = create_engine(DATABASE_URL, echo=True)
