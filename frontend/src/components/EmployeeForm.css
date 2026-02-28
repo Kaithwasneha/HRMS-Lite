@@ -1,0 +1,91 @@
+/* EmployeeForm Component Styles - Modern Professional Design */
+
+.employee-form {
+  background: var(--bg-secondary);
+  padding: calc(var(--spacing-unit) * 1.5);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 0;
+  position: relative;
+  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.employee-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+}
+
+.employee-form h2 {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: calc(var(--spacing-unit) * 1.25);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  flex-shrink: 0;
+}
+
+.employee-form form {
+  max-width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 1.25);
+  border-radius: var(--radius-md);
+  margin-bottom: calc(var(--spacing-unit) * 1);
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-success {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  color: #065f46;
+  border: 2px solid var(--success);
+}
+
+.message-error {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+  border: 2px solid var(--error);
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .employee-form {
+    padding: calc(var(--spacing-unit) * 1.25);
+    margin-bottom: 0;
+  }
+
+  .employee-form h2 {
+    font-size: 15px;
+  }
+}

@@ -1,0 +1,70 @@
+/* Input Component Styles - Modern Professional Design */
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 0.5);
+  margin-bottom: calc(var(--spacing-unit) * 1);
+}
+
+.input-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.2px;
+}
+
+.required {
+  color: var(--error);
+  margin-left: 4px;
+  font-weight: 700;
+}
+
+.input-field {
+  padding: calc(var(--spacing-unit) * 0.875) calc(var(--spacing-unit) * 1);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
+}
+
+.input-field:hover {
+  border-color: #cbd5e1;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1), var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.input-field.input-error {
+  border-color: var(--error);
+  background: #fef2f2;
+}
+
+.input-field.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1), var(--shadow-md);
+}
+
+.error-message {
+  font-size: 10px;
+  color: var(--error);
+  margin-top: calc(var(--spacing-unit) * 0.25);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing-unit) * 0.375);
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .input-field {
+    font-size: 13px;
+    padding: calc(var(--spacing-unit) * 1);
+  }
+}

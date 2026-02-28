@@ -1,0 +1,99 @@
+/* EmployeeList Component Styles - Modern Professional Design */
+
+.employee-list {
+  background: var(--bg-secondary);
+  padding: calc(var(--spacing-unit) * 1.5);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.employee-list::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+}
+
+.employee-list h2 {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: calc(var(--spacing-unit) * 1);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  flex-shrink: 0;
+}
+
+/* Table container within employee list */
+.employee-list .table-container {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.loading-state,
+.empty-state,
+.error-state {
+  text-align: center;
+  padding: calc(var(--spacing-unit) * 3);
+  color: var(--text-secondary);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-state {
+  gap: calc(var(--spacing-unit) * 1);
+}
+
+.spinner-large {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  box-shadow: var(--shadow-md);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-state {
+  color: var(--error);
+}
+
+.empty-state p,
+.error-state p,
+.loading-state p {
+  font-size: 12px;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .employee-list {
+    padding: calc(var(--spacing-unit) * 1.25);
+  }
+
+  .employee-list h2 {
+    font-size: 15px;
+  }
+}

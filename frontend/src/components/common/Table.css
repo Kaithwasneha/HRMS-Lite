@@ -1,0 +1,87 @@
+/* Table Component Styles - Modern Professional Design */
+
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  box-shadow: var(--shadow-md);
+  flex: 1;
+  min-height: 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.table thead {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 2px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.table th {
+  padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 1.25);
+  text-align: left;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+.table td {
+  padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 1.25);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 11px;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.table tbody tr:hover {
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%);
+}
+
+.empty-row {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: calc(var(--spacing-unit) * 3) !important;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .table {
+    font-size: 12px;
+  }
+
+  .table th {
+    font-size: 10px;
+    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 1);
+  }
+
+  .table td {
+    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 1);
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 479px) {
+
+  .table th,
+  .table td {
+    padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 0.75);
+  }
+}
